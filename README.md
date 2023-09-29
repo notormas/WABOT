@@ -12,14 +12,14 @@ node example.js
 
 Pastikan Anda telah mengonfigurasi proyek dengan benar sebelum menjalankannya.
 
-Fitur
+Fitur sing ono iki
 -----
 
 *   **Validasi Nomor melalui Permintaan GET:** Anda dapat melakukan validasi nomor telepon melalui permintaan GET.
 *   **Kirim Gambar dengan Keterangan:** Mengirimkan gambar bersama dengan keterangan.
 *   **Kirim Pesan Teks:** Mengirim pesan teks.
 
-Fitur yang Dibutuhkan
+Fitur sing kurang iki
 ---------------------
 
 Beberapa fitur yang akan ditambahkan ke proyek ini di masa depan meliputi:
@@ -42,4 +42,4 @@ Kami sangat menyambut kontribusi dari komunitas. Jika Anda ingin berkontribusi p
 Lisensi
 -------
 
-Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
+GA ONO LISENSI PENTING LANCAR
