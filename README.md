@@ -10,7 +10,7 @@
 
     <h2>Menjalankan Proyek</h2>
     <p>Untuk menjalankan bot, Anda dapat menggunakan perintah berikut:</p>
-    <pre><code>node example.js</code></pre>
+    <p>node example.js</p>
     <p>Pastikan Anda telah mengonfigurasi proyek dengan benar sebelum menjalankannya.</p>
 
     <h2>Fitur</h2>
