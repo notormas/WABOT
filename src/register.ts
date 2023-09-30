@@ -108,13 +108,6 @@ async function start() {
       }
    });
 
-   app.get("/change", async (req, res) => {
-      res.status(200).json({
-         status: false,
-         response: `Nomor tidak terdaftar.`,
-      });
-   })
-
    app.get('/valid', async (req, res) => {
       const phone = req.query.number;
       const numberWA = phone + "@s.whatsapp.net";
@@ -196,11 +189,6 @@ async function start() {
 
    // Port yang akan digunakan oleh Express
    const port = process.env.PORT || 3000;
-
-   // Mulai server Express
-   app.listen(port, () => {
-      console.log(`Server berjalan di port ${port}`);
-   });
 }
 
 // Panggil fungsi start untuk memulai proses
