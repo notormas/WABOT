@@ -1,4 +1,5 @@
-const sessionName = "session";
+const sessionName = question("Masukan Nama sessi");
+
 const {
    default: makeWASocket,
    delay,
@@ -10,6 +11,7 @@ const {
    DisconnectReason,
    MessageType,
 } = require("@whiskeysockets/baileys");
+
 const pino = require("pino");
 const fs = require("fs");
 const NodeCache = require("node-cache");
@@ -36,11 +38,11 @@ const logger = MAIN_LOGGER.child({});
 logger.level = "trace";
 
 const store = useStore ? makeInMemoryStore({ logger }) : undefined;
-store?.readFromFile("./session");
+store?.readFromFile(`./session/${sessionName}`);
 
 // Simpan setiap 1 menit
 setInterval(() => {
-   store?.writeToFile("./session");
+   store?.writeToFile("./session/${sessionName}");
 }, 10000 * 6);
 
 const msgRetryCounterCache = new NodeCache();
@@ -50,6 +52,7 @@ const rl = readline.createInterface({
    output: process.stdout,
 });
 const question = (text) => new Promise((resolve) => rl.question(text, resolve));
+
 
 const P = require("pino")({
    level: "silent",
