@@ -24,10 +24,10 @@ Fitur sing kurang iki
 
 Beberapa fitur yang akan ditambahkan ke proyek ini di masa depan meliputi:
 
-*   **Dukungan Multi Akun:** Menambahkan dukungan untuk mengelola beberapa akun WhatsApp.
-*   **Rotasi Akun:** Melakukan rotasi otomatis antara akun setiap tiga kali pengiriman pesan.
-*   **Kirim Video:** Menambahkan kemampuan untuk mengirim video.
-*   **Thumbnail Video YouTube:** Mengambil dan mengirim thumbnail video YouTube berdasarkan URL.
+- [x]   **Dukungan Multi Akun:** Menambahkan dukungan untuk mengelola beberapa akun WhatsApp.
+- [ ]   **Rotasi Akun:** Melakukan rotasi otomatis antara akun setiap tiga kali pengiriman pesan.
+- [ ]   **Kirim Video:** Menambahkan kemampuan untuk mengirim video.
+- [ ]   **Thumbnail Video YouTube:** Mengambil dan mengirim thumbnail video YouTube berdasarkan URL.
 
 Kontribusi
 ----------
