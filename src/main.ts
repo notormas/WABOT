@@ -8,6 +8,8 @@ import bodyParser from "body-parser";
 
 let sessionName = "";
 
+let sock : any;
+
 const useStore: boolean = false;
 const usePairingCode: boolean = true;
 const useMobile: boolean = false;
@@ -55,16 +57,15 @@ const P = pino({
    level: "silent",
 });
 
-
-
-async function start() {
-   await questName();
-   let { state, saveCreds } = await useMultiFileAuthState(sessionName);
+const connectWa = async (name) => {
+   console.log(`login as ${name}`)
+   let { state, saveCreds } = await useMultiFileAuthState(name);
    let { version, isLatest } = await fetchLatestBaileysVersion();
-   const sock = makeWASocket({
+   console.log(state);
+   sock = makeWASocket({
       version,
-      logger: P, // P untuk konsol log yang tersembunyi
-      printQRInTerminal: !usePairingCode, // Jika Anda ingin menggunakan pemindaian, ubah nilai variabel ini menjadi false
+      // logger: P, // P untuk konsol log yang tersembunyi
+      printQRInTerminal: false, // Jika Anda ingin menggunakan pemindaian, ubah nilai variabel ini menjadi false
       mobile: useMobile,
       browser: ["chrome (linux)", "", ""], // Jika Anda mengubah ini, maka kode pairing tidak akan berfungsi
       auth: {
@@ -76,7 +77,12 @@ async function start() {
    store?.bind(sock.ev);
 
    sock.ev.on("creds.update", saveCreds); // untuk menyimpan kredensial
+}
 
+async function start() {
+   await questName();
+   // initialize
+   await connectWa(sessionName)
    if (usePairingCode && !sock.authState.creds.registered) {
       if (useMobile) {
          throw new Error("Tidak dapat menggunakan API seluler");
@@ -109,9 +115,12 @@ async function start() {
    });
 
    app.get("/change", async (req, res) => {
+      const name = req.query.name;
+      await connectWa(name);
       res.status(200).json({
          status: false,
-         response: `Nomor tidak terdaftar.`,
+         response: `Connection change to ${name}`,
+         authState: sock.authState.creds,
       });
    })
 
@@ -168,7 +177,7 @@ async function start() {
          await sock.sendMessage(nomorTujuan, { text: pesan });
          res.status(200).json({ status: true, response: 'Pesan berhasil dikirim.' });
       } catch (error) {
-         res.status(500).json({ status: false, response: 'Kesalahan saat mengirim pesan.' });
+         res.status(500).json({ status: false, response: 'Kesalahan saat mengirim pesan.', data: error });
       }
    });
 
