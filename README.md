@@ -54,6 +54,7 @@ url : http://localhost:3000/send-message
   "to": "62812345678909",
   "text": "Hello, this is a test message!"
 }
+
 | Parameter | Type      | keterangan                             |
 | :-------- | :-------- | :------------------------------------- |
 | `session` | `string`  | **Required**. Create Your Session Name |
@@ -70,6 +71,19 @@ url : http://localhost:3000/send-message
 | `session` | `string` | **Required**. Session Name You Have Created                              |
 | `to`      | `string` | **Required**. Receiver Phone Number with Country Code (e.g: 62812345678) |
 | `text`    | `string` | **Required**. Text Message                                               |
+
+#### Send Text Message with image
+
+```
+  POST /send-message
+```
+
+| Body      | Type     | Description                                                              |
+| :-------- | :------- | :----------------------------------------------------------------------- |
+| `session` | `string` | **Required**. Session Name You Have Created                              |
+| `to`      | `string` | **Required**. Receiver Phone Number with Country Code (e.g: 62812345678) |
+| `text`    | `string` | **Required**. Text Message                                               |
+| `image`    | `string` | **Required**. image "url https://google.com/jpg"                                          |
 
 #### Send Bulk Message
 

@@ -1,7 +1,6 @@
 const whatsapp = require("wa-multi-session");
 const ValidationError = require("../../utils/error");
 const { responseSuccessWithData } = require("../../utils/response");
-
 exports.sendMessage = async (req, res, next) => {
   try {
     let to = req.body.to || req.query.to;
@@ -10,16 +9,35 @@ exports.sendMessage = async (req, res, next) => {
     const sessionId =
       req.body.session || req.query.session || req.headers.session;
 
-    if (!to || !text) throw new ValidationError("Missing Parameters");
+    // Menambahkan parameter untuk gambar dan caption
+    let image = req.body.image || req.query.image;
+    let caption = req.body.caption || req.query.caption;
+
+    if (!to) throw new ValidationError("Missing 'to' Parameter");
 
     const receiver = to;
-    if (!sessionId) throw new ValidationError("Session Not Founds");
-    const send = await whatsapp.sendTextMessage({
-      sessionId,
-      to: receiver,
-      isGroup: !!isGroup,
-      text,
-    });
+    if (!sessionId) throw new ValidationError("Session Not Found");
+
+    let send;
+
+    // Mengirim pesan gambar jika image ada
+    if (image) {
+      send = await whatsapp.sendImage({
+        sessionId,
+        to: receiver,
+        isGroup: !!isGroup,
+        media:image, // Gambar (biasanya berupa URL atau path file)
+        text:text, // Keterangan atau caption untuk gambar
+      });
+    } else {
+      // Mengirim pesan teks jika image tidak ada
+      send = await whatsapp.sendTextMessage({
+        sessionId,
+        to: receiver,
+        isGroup: !!isGroup,
+        text,
+      });
+    }
 
     res.status(200).json(
       responseSuccessWithData({
@@ -33,6 +51,8 @@ exports.sendMessage = async (req, res, next) => {
     next(error);
   }
 };
+
+
 exports.sendBulkMessage = async (req, res, next) => {
   try {
     const sessionId =
