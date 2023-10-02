@@ -8,7 +8,7 @@ Menjalankan Proyek
 
 Untuk menjalankan bot, Anda dapat menggunakan perintah berikut:
 
-node example.js
+npm run start
 
 Pastikan Anda telah mengonfigurasi proyek dengan benar sebelum menjalankannya.
 
