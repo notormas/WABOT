@@ -53,6 +53,7 @@ exports.sendMessage = async (req, res, next) => {
 };
 
 
+
 exports.sendBulkMessage = async (req, res, next) => {
   try {
     const sessionId =
@@ -86,6 +87,40 @@ exports.sendBulkMessage = async (req, res, next) => {
       await whatsapp.createDelay(delay ?? 1000);
     }
     console.log("SEND BULK MESSAGE WITH DELAY SUCCESS");
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.valid = async (req, res, next) => {
+  try {
+
+      const phone = req.query.number;
+      numberWA = phone + "@s.whatsapp.net";
+    
+          const exists = await whatsapp.onWhatsApp(numberWA);
+          console.log(exists);
+          if (exists?.jid || (exists && exists[0]?.jid)) {
+              fs.appendFile('success_numbers.txt', `${phone}\n`, (err) => {
+                  if (err) {
+                      console.error('Gagal menyimpan nomor ke file:', err);
+                  } else {
+                      console.log('Nomor berhasil disimpan ke file.');
+                  }
+              });
+              res.status(200).json({
+                  status: true,
+                  response: `valid ${phone} `,
+              });
+          } else {
+              res.status(500).json({
+                  status: false,
+                  response: `Nomor ${phone} tidak terdaftar.`,
+              });
+          }
+     
+  
+  
   } catch (error) {
     next(error);
   }
