@@ -12,17 +12,23 @@ const whatsapp = require("wa-multi-session");
 config();
 
 var app = express();
+
+// set public context
+app.context = {}
+app.context.whatsapp = {}
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
+
 // Public Path
 app.use("/p", express.static(path.resolve("public")));
 app.use("/p/*", (req, res) => res.status(404).send("Media Not Found"));
 
-app.use(MainRouter);
+app.use(MainRouter(app.context));
 
 app.use(errorHandlerMiddleware);
 

@@ -5,10 +5,15 @@ const {
   sessions,
 } = require("../controllers/session_controller");
 
-const SessionRouter = Router();
+const SessionRouter = (context) => {
 
-SessionRouter.all("/start-session", createSession);
-SessionRouter.all("/delete-session", deleteSession);
-SessionRouter.all("/sessions", sessions);
+  const SessionRouter = Router();
+
+  SessionRouter.all("/start-session", createSession);
+  SessionRouter.all("/delete-session", deleteSession);
+  SessionRouter.all("/sessions", sessions);
+
+  return SessionRouter;
+}
 
 module.exports = SessionRouter;
