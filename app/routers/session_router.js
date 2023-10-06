@@ -9,9 +9,9 @@ const SessionRouter = (context) => {
 
   const SessionRouter = Router();
 
-  SessionRouter.all("/start-session", createSession);
-  SessionRouter.all("/delete-session", deleteSession);
-  SessionRouter.all("/sessions", sessions);
+  SessionRouter.all("/start-session", createSession(context));
+  SessionRouter.all("/delete-session", deleteSession(context));
+  SessionRouter.all("/sessions", sessions(context));
 
   return SessionRouter;
 }
