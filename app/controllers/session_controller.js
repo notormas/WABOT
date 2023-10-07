@@ -6,6 +6,20 @@ const {
   responseSuccessWithData,
 } = require("../../utils/response");
 
+exports.sessionFromContext = (context) => {
+  return async (req, res, next) => {
+    try {
+      return res.json({
+        "error": false,
+        "messages": "",
+        "data": context.whatsapp,
+      })
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 exports.createSession = (context) => {
   return async (req, res, next) => {
     try {
