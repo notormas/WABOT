@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Scan QR</title>
-        <style>
-            body {
-                padding: 5rem;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="qrcode"></div>
-        <script type="text/javascript">
-            console.log('<%= qr %>')
-            let qr = '<%= qr %>'
-            let image = new Image()
-            image.src = qr
-            document.body.appendChild(image)
-        </script>
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scan QR</title>
+    <style>
+        body {
+            padding: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="qrcode"></div>
+    <button id="startButton">Start Session</button>
+
+    <script type="text/javascript">
+        console.log('<%= qr %>')
+        let qr = '<%= qr %>'
+        let image = new Image()
+        image.src = qr
+        document.body.appendChild(image)
+
+        // Mengambil nilai session dari URL menggunakan JavaScript
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionValue = urlParams.get('session');
+
+        // Membuat tautan dengan session yang diubah saat tombol ditekan
+        const startButton = document.getElementById('startButton');
+        startButton.addEventListener('click', () => {
+            const newSessionValue = parseInt(sessionValue) + 1;
+            window.location.href = `/start-session?session=${newSessionValue}&scan=true`;
+        });
+    </script>
+</body>
 </html>
