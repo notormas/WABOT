@@ -40,7 +40,7 @@ server.on("listening", () => console.log("APP IS RUNNING ON PORT " + PORT));
 
 server.listen(PORT);
 
-whatsapp.onConnected((session) => {
+whatsapp.onConnected(async (session) => {
   whatsapp.onMessageReceived(async (msg) => {
     console.log("Pesan diterima:", msg);
     if (msg.message && msg.message.conversation === "1") {
@@ -63,6 +63,12 @@ whatsapp.onConnected((session) => {
 });
 
   console.log("connected => ", session);
+  // const replyMessage = "connected ==>"+session;
+  // await whatsapp.sendTextMessage({
+  //   sessionId: session, // Menggunakan session.sessionId
+  //   to: "6281554850403@s.whatsapp.net",
+  //   text: replyMessage, // Menggunakan "text" untuk pesan balasan, bukan "replyMessage"
+  // })
 });
 
 whatsapp.onDisconnected((session) => {
