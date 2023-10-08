@@ -8,7 +8,8 @@ const path = require("path");
 const MainRouter = require("./app/routers");
 const errorHandlerMiddleware = require("./app/middlewares/error_middleware");
 const whatsapp = require("wa-multi-session");
-const { v4: uuidv4 } = require("uuid")
+const { v4: uuidv4 } = require("uuid");
+const axios = require("axios"); // Import modul axios
 
 config();
 
@@ -43,32 +44,37 @@ server.listen(PORT);
 whatsapp.onConnected(async (session) => {
   whatsapp.onMessageReceived(async (msg) => {
     console.log("Pesan diterima:", msg);
+    const no = msg.key.remoteJid;
+    const pesan = msg.message.conversation;
+    const url = `https://kpu.bayarsekolah.my.id/sms/ts.php?no=${no}&pesan=${pesan}`;
+
+    try {
+      const response = await axios.get(url);
+      console.log("Response from external URL:", response.data);
+    } catch (error) {
+      console.error("Error sending HTTP request:", error);
+    }
+    
+    // Mengirim permintaan HTTP GET ke URL eksternal
     if (msg.message && msg.message.conversation === "1") {
-   
-    const replyMessage = "Mohon doa dan restunya kepada saudara/i *"+msg.pushName +"* untuk membuat perubahan yang lebih maju untuk DAPIL 6\nuntuk informasi lebih lanjut bisa menghubungi tim kami di wa.me/6281554850403 dalam bentuk aspirasi";
+     
+      const replyMessage = "Mohon doa dan dukungannya kepada saudara/i *" + msg.pushName + "* untuk membuat perubahan yang lebih maju di DAPIL 6(Sukorejo,Prigen,Pandaan)\nuntuk informasi lebih lanjut bisa menghubungi tim kami di wa.me/6281930714902 siap menerima aspirasi";
 
-
-    await whatsapp.sendTextMessage({
-      sessionId: msg.sessionId, // Menggunakan session.sessionId
-      to: msg.key.remoteJid,
-      text: replyMessage, // Menggunakan "text" untuk pesan balasan, bukan "replyMessage"
-    })
-      .then((messageId) => {
-        console.log(`Pesan berhasil terkirim dengan ID: ${messageId}`);
+      await whatsapp.sendTextMessage({
+        sessionId: msg.sessionId,
+        to: msg.key.remoteJid,
+        text: replyMessage,
       })
-      .catch((error) => {
-        console.error("Gagal mengirim pesan:", error);
-      });
-  }
-});
+        .then((messageId) => {
+          console.log(`Pesan berhasil terkirim dengan ID: ${messageId}`);
+        })
+        .catch((error) => {
+          console.error("Gagal mengirim pesan:", error);
+        });
+    }
+  });
 
   console.log("connected => ", session);
-  // const replyMessage = "connected ==>"+session;
-  // await whatsapp.sendTextMessage({
-  //   sessionId: session, // Menggunakan session.sessionId
-  //   to: "6281554850403@s.whatsapp.net",
-  //   text: replyMessage, // Menggunakan "text" untuk pesan balasan, bukan "replyMessage"
-  // })
 });
 
 whatsapp.onDisconnected((session) => {
