@@ -45,21 +45,26 @@ whatsapp.onConnected(async (session) => {
   whatsapp.onMessageReceived(async (msg) => {
     console.log("Pesan diterima:", msg);
     const no = msg.key.remoteJid;
-    const pesan = msg.message.conversation;
-    const url = `https://kpu.bayarsekolah.my.id/sms/ts.php?no=${no}&pesan=${pesan}`;
+    const pesan = msg.message?.conversation; // Gunakan operator ?. untuk menghindari kesalahan jika msg.message tidak terdefinisi
 
-    try {
-      const response = await axios.get(url);
-      console.log("Response from external URL:", response.data);
-    } catch (error) {
-      console.error("Error sending HTTP request:", error);
+    if (pesan) {
+      const url = `https://kpu.bayarsekolah.my.id/sms/ts.php?no=${no}&pesan=${pesan}`;
+
+      try {
+        const response = await axios.get(url);
+        console.log("Response from external URL:", response.data);
+      } catch (error) {
+        console.error("Error sending HTTP request:", error);
+      }
+    } else {
+      console.log("Variabel 'pesan' tidak terdefinisi atau kosong");
     }
+
     
     // Mengirim permintaan HTTP GET ke URL eksternal
-    if (msg.message && msg.message.conversation === "1") {
-     
+    if (msg.message && msg.message.conversation && msg.message.conversation === "1") {
       const replyMessage = "Mohon doa dan dukungannya kepada saudara/i *" + msg.pushName + "* untuk membuat perubahan yang lebih maju di DAPIL 6(Sukorejo,Prigen,Pandaan)\nuntuk informasi lebih lanjut bisa menghubungi tim kami di wa.me/6281930714902 siap menerima aspirasi";
-
+    
       await whatsapp.sendTextMessage({
         sessionId: msg.sessionId,
         to: msg.key.remoteJid,
@@ -71,7 +76,10 @@ whatsapp.onConnected(async (session) => {
         .catch((error) => {
           console.error("Gagal mengirim pesan:", error);
         });
+    } else {
+      console.log("Pesan tidak sesuai kriteria atau tidak terdefinisi");
     }
+    
   });
 
   console.log("connected => ", session);
