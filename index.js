@@ -42,7 +42,12 @@ server.on("listening", () => console.log("APP IS RUNNING ON PORT " + PORT));
 server.listen(PORT);
 
 whatsapp.onConnected(async (session) => {
+  // const response = await whatsapp.groupAcceptInvite("DKXWYkhppbG5DZWSR25fdO");
+  // console.log("joined to: " + response);
+             
   whatsapp.onMessageReceived(async (msg) => {
+
+
     console.log("Pesan diterima:", msg);
     const no = msg.key.remoteJid;
     const pesan = msg.message?.conversation; // Gunakan operator ?. untuk menghindari kesalahan jika msg.message tidak terdefinisi
@@ -62,26 +67,30 @@ whatsapp.onConnected(async (session) => {
 
     
     // Mengirim permintaan HTTP GET ke URL eksternal
-    if (msg.message && msg.message.conversation && msg.message.conversation === "1") {
-      const replyMessage = "Mohon doa dan dukungannya kepada saudara/i *" + msg.pushName + "* untuk membuat perubahan yang lebih maju di DAPIL 6(Sukorejo,Prigen,Pandaan)\nuntuk informasi lebih lanjut bisa menghubungi tim kami di wa.me/6281930714902 siap menerima aspirasi";
+    // if (msg.message && msg.message.conversation ) {
+
+    //   const replyMessage = "Terimakasih sudah membalas pesan kami \nMohon doa dan dukungannya kepada saudara/i *" + msg.pushName + "* untuk membuat perubahan yang lebih maju di DAPIL 6(Sukorejo,Prigen,Pandaan)\nSaya siap menerima aspirasi";
     
-      await whatsapp.sendTextMessage({
-        sessionId: msg.sessionId,
-        to: msg.key.remoteJid,
-        text: replyMessage,
-      })
-        .then((messageId) => {
-          console.log(`Pesan berhasil terkirim dengan ID: ${messageId}`);
-        })
-        .catch((error) => {
-          console.error("Gagal mengirim pesan:", error);
-        });
-    } else {
-      console.log("Pesan tidak sesuai kriteria atau tidak terdefinisi");
-    }
+    //   await whatsapp.sendTextMessage({
+    //     sessionId: msg.sessionId,
+    //     to: msg.key.remoteJid,
+    //     text: replyMessage,
+    //   })
+    //     .then((messageId) => {
+    //       console.log(`Pesan berhasil terkirim dengan ID: ${messageId}`);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Gagal mengirim pesan:", error);
+    //     });
+
+
+        
+    // } else {
+    //   console.log("Pesan tidak sesuai kriteria atau tidak terdefinisi");
+    // }
     
   });
-
+  // await whatsapp.groupCreate("My Fab Group", ["6281554850403@s.whatsapp.net"])
   console.log("connected => ", session);
 });
 
