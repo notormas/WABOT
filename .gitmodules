@@ -1,0 +1,3 @@
+[submodule "wa_credentials"]
+	path = wa_credentials
+	url = https://github.com/notormas/session_wa
