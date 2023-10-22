@@ -32,7 +32,7 @@ function send($s, $n)
     if ($err) {
         echo "cURL Error #:" . $err;
     } else {
-        echo $response;
+        echo $response . "\n";
     }
 }
 
